@@ -135,25 +135,17 @@ public class StructureTileProviders extends JsonDataLoader implements Identifiab
             Map<ChunkPos, String> debugPredicates, Map<Landmark<?>, MarkerTexture> outMarkers, World world,
             RegistryKey<Structure> key, ChunkPos pos, StructureStartSummary summary, RegistryKey<StructureType<?>> type,
             Collection<TagKey<Structure>> tags) {
-        boolean found = false;
-        System.out.println(
-                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-        System.out.println(
-                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-        System.out.println(
-                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+
         int s = outMarkers.size();
 
         if (startMarkers.containsKey(key.getValue())) {
             MarkerTexture texture = startMarkers.get(key.getValue());
             outMarkers.put(new AtlasStructureLandmark(pos.getCenterAtY(0), ProviderType.START, key.getValue(), null),
                     texture);
-            found = true;
         } else if (type != null && typeMarkers.containsKey(type.getValue())) {
             MarkerTexture texture = typeMarkers.get(type.getValue());
             outMarkers.put(new AtlasStructureLandmark(pos.getCenterAtY(0), ProviderType.TYPE, type.getValue(), null),
                     texture);
-            found = true;
         } else {
             tagMarkers.entrySet().stream()
                     .filter(entry -> tags.contains(TagKey.of(RegistryKeys.STRUCTURE, entry.getKey()))).findFirst()
@@ -164,12 +156,7 @@ public class StructureTileProviders extends JsonDataLoader implements Identifiab
                     });
         }
 
-        System.out.println(key.getValue().getPath());
-        System.out.println(outMarkers.size());
-        System.out.println(s);
-
         if (outMarkers.size() <= s) {
-            System.out.println("Hai");
             String structureName = /*key.getValue().getNamespace() + ":" +*/ key.getValue().getPath();
 
             StringBuilder result = new StringBuilder(structureName.length());
@@ -192,8 +179,6 @@ public class StructureTileProviders extends JsonDataLoader implements Identifiab
                             result.toString()),
                     MarkerTextures.lolol);
         }
-
-        System.out.println(outMarkers.size());
 
         if (startTiles.containsKey(key.getValue())) {
             StructureTileProvider provider = startTiles.get(key.getValue());
