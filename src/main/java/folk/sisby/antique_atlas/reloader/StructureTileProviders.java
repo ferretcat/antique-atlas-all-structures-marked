@@ -136,6 +136,13 @@ public class StructureTileProviders extends JsonDataLoader implements Identifiab
             RegistryKey<Structure> key, ChunkPos pos, StructureStartSummary summary, RegistryKey<StructureType<?>> type,
             Collection<TagKey<Structure>> tags) {
         boolean found = false;
+        System.out.println(
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        System.out.println(
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        System.out.println(
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        int s = outMarkers.size();
 
         if (startMarkers.containsKey(key.getValue())) {
             MarkerTexture texture = startMarkers.get(key.getValue());
@@ -157,10 +164,36 @@ public class StructureTileProviders extends JsonDataLoader implements Identifiab
                     });
         }
 
-        if (!found) {
-            outMarkers.put(new AtlasStructureLandmark(pos.getCenterAtY(0), ProviderType.START, MarkerTextures.lol,
-                    /*key.getValue().getNamespace() + ":" +*/ key.getValue().getPath()), MarkerTextures.lolol);
+        System.out.println(key.getValue().getPath());
+        System.out.println(outMarkers.size());
+        System.out.println(s);
+
+        if (outMarkers.size() <= s) {
+            System.out.println("Hai");
+            String structureName = /*key.getValue().getNamespace() + ":" +*/ key.getValue().getPath();
+
+            StringBuilder result = new StringBuilder(structureName.length());
+
+            boolean capitalizeNext = true;
+            for (char c : structureName.toCharArray()) {
+                if (c == '_') {
+                    result.append(' ');
+                    capitalizeNext = true;
+                } else if (capitalizeNext) {
+                    result.append(Character.toUpperCase(c));
+                    capitalizeNext = false;
+                } else {
+                    result.append(c);
+                }
+            }
+
+            outMarkers.put(
+                    new AtlasStructureLandmark(pos.getCenterAtY(0), ProviderType.START, MarkerTextures.lol,
+                            result.toString()),
+                    MarkerTextures.lolol);
         }
+
+        System.out.println(outMarkers.size());
 
         if (startTiles.containsKey(key.getValue())) {
             StructureTileProvider provider = startTiles.get(key.getValue());
